@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RemoteFix | Pro Tech Support</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #030712 !important;
+            color: #f3f4f6 !important;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Arka Plan Neon Işık Efektleri */
+        .neon-glow-1 {
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 350px;
+            height: 350px;
+            background: rgba(6, 182, 212, 0.12);
+            filter: blur(90px);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .neon-glow-2 {
+            position: absolute;
+            bottom: -100px;
+            right: -100px;
+            width: 350px;
+            height: 350px;
+            background: rgba(37, 211, 102, 0.1);
+            filter: blur(90px);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 520px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(6, 182, 212, 0.1);
+            backdrop-filter: blur(16px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #cbd5e1;
+            letter-spacing: 0.025em;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+        }
+
+        .phone-container {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .phone-container select {
+            flex: 0 0 140px;
+            background-color: #0b1329;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .phone-container input {
+            flex: 1;
+            letter-spacing: 0.5px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            margin-top: 0.5rem;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .divider span {
+            padding: 0 1rem;
+        }
+
+        .whatsapp-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            width: 100%;
+            padding: 0.9rem;
+            background: rgba(37, 211, 102, 0.1);
+            color: #25d366;
+            border: 1px solid #25d366;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-btn:hover {
+            background: #25d366;
+            color: #030712;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .status-message {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            display: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="neon-glow-1"></div>
+    <div class="neon-glow-2"></div>
+
+    <div class="card">
+        <div class="header">
+            <h1>Remote Tech Support</h1>
+            <p>Submit your repair request or connect instantly via WhatsApp.</p>
+        </div>
+
+        <form id="repairForm" action="https://formspree.io/f/xvkzlegl" method="POST">
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required placeholder="e.g. John Smith">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="example@gmail.com">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <div class="phone-container">
+                    <select id="countryCode" name="country_code">
+                        <option value="+90" data-digits="10" selected>🇹🇷 +90 (TR)</option>
+                        <option value="+1" data-digits="10">🇺🇸 +1 (US/CA)</option>
+                        <option value="+44" data-digits="10">🇬🇧 +44 (UK)</option>
+                        <option value="+49" data-digits="11">🇩🇪 +49 (DE)</option>
+                        <option value="+33" data-digits="9">🇫🇷 +33 (FR)</option>
+                        <option value="+31" data-digits="9">🇳🇱 +31 (NL)</option>
+                        <option value="+39" data-digits="10">🇮🇹 +39 (IT)</option>
+                        <option value="+34" data-digits="9">🇪🇸 +34 (ES)</option>
+                        <option value="+41" data-digits="9">🇨🇭 +41 (CH)</option>
+                        <option value="+43" data-digits="11">🇦🇹 +43 (AT)</option>
+                        <option value="+32" data-digits="9">🇧🇪 +32 (BE)</option>
+                        <option value="+46" data-digits="9">🇸🇪 +46 (SE)</option>
+                        <option value="+47" data-digits="8">🇳🇴 +47 (NO)</option>
+                        <option value="+45" data-digits="8">🇩🇰 +45 (DK)</option>
+                        <option value="+358" data-digits="9">🇫🇮 +358 (FI)</option>
+                        <option value="+48" data-digits="9">🇵🇱 +48 (PL)</option>
+                        <option value="+351" data-digits="9">🇵🇹 +351 (PT)</option>
+                        <option value="+30" data-digits="10">🇬🇷 +30 (GR)</option>
+                        <option value="+420" data-digits="9">🇨🇿 +420 (CZ)</option>
+                        <option value="+36" data-digits="9">🇭🇺 +36 (HU)</option>
+                        <option value="+40" data-digits="9">🇷🇴 +40 (RO)</option>
+                        <option value="+385" data-digits="9">🇭🇷 +385 (HR)</option>
+                        <option value="+381" data-digits="9">🇷🇸 +381 (RS)</option>
+                        <option value="+380" data-digits="9">🇺🇦 +380 (UA)</option>
+                        <option value="+7" data-digits="10">🇷🇺 +7 (RU)</option>
+                        <option value="+994" data-digits="9">🇦🇿 +994 (AZ)</option>
+                        <option value="+995" data-digits="9">🇬🇪 +995 (GE)</option>
+                        <option value="+971" data-digits="9">🇦🇪 +971 (AE)</option>
+                        <option value="+966" data-digits="9">🇸🇦 +966 (SA)</option>
+                        <option value="+974" data-digits="8">🇶🇦 +974 (QA)</option>
+                        <option value="+965" data-digits="8">🇰🇼 +965 (KW)</option>
+                        <option value="+973" data-digits="8">🇧🇭 +973 (BH)</option>
+                        <option value="+968" data-digits="8">🇴🇲 +968 (OM)</option>
+                        <option value="+962" data-digits="9">🇯🇴 +962 (JO)</option>
+                        <option value="+961" data-digits="8">🇱🇧 +961 (LB)</option>
+                        <option value="+20" data-digits="10">🇪🇬 +20 (EG)</option>
+                        <option value="+212" data-digits="9">🇲🇦 +212 (MA)</option>
+                        <option value="+216" data-digits="8">🇹🇳 +216 (TN)</option>
+                        <option value="+91" data-digits="10">🇮🇳 +91 (IN)</option>
+                        <option value="+92" data-digits="10">🇵🇰 +92 (PK)</option>
+                        <option value="+880" data-digits="10">🇧🇩 +880 (BD)</option>
+                        <option value="+81" data-digits="10">🇯🇵 +81 (JP)</option>
+                        <option value="+82" data-digits="10">🇰🇷 +82 (KR)</option>
+                        <option value="+86" data-digits="11">🇨🇳 +86 (CN)</option>
+                        <option value="+852" data-digits="8">🇭🇰 +852 (HK)</option>
+                        <option value="+886" data-digits="9">🇹🇼 +886 (TW)</option>
+                        <option value="+65" data-digits="8">🇸🇬 +65 (SG)</option>
+                        <option value="+60" data-digits="9">🇲🇾 +60 (MY)</option>
+                        <option value="+62" data-digits="11">🇮🇩 +62 (ID)</option>
+                        <option value="+63" data-digits="10">🇵🇭 +63 (PH)</option>
+                        <option value="+66" data-digits="9">🇹🇭 +66 (TH)</option>
+                        <option value="+84" data-digits="9">🇻🇳 +84 (VN)</option>
+                        <option value="+61" data-digits="9">🇦🇺 +61 (AU)</option>
+                        <option value="+64" data-digits="9">🇳🇿 +64 (NZ)</option>
+                        <option value="+55" data-digits="11">🇧🇷 +55 (BR)</option>
+                        <option value="+52" data-digits="10">🇲🇽 +52 (MX)</option>
+                        <option value="+54" data-digits="10">🇦🇷 +54 (AR)</option>
+                        <option value="+57" data-digits="10">🇨🇴 +57 (CO)</option>
+                        <option value="+56" data-digits="9">🇨🇱 +56 (CL)</option>
+                        <option value="+51" data-digits="9">🇵🇪 +51 (PE)</option>
+                    </select>
+                    <input type="tel" id="phone" name="phone" required placeholder="Phone number">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="device">Device Model / OS</label>
+                <input type="text" id="device" name="device" required placeholder="e.g. iPhone 14 / Windows 11 PC">
+            </div>
+
+            <div class="form-group">
+                <label for="issue">Describe Your Issue</label>
+                <textarea id="issue" name="issue" required placeholder="Briefly explain what's wrong with your device..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Request Remote Fix</button>
+            <div id="status" class="status-message"></div>
+        </form>
+
+        <div class="divider">
+            <span>OR CONNECT INSTANTLY</span>
+        </div>
+
+        <a href="https://wa.me/905318591610?text=Hello,%20I%20need%20remote%20tech%20support%20for%20my%20device." target="_blank" class="whatsapp-btn">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+            </svg>
+            Chat on WhatsApp
+        </a>
+    </div>
+
+    <script>
+        const phoneInput = document.getElementById('phone');
+        const countrySelect = document.getElementById('countryCode');
+
+        function getMaxDigits() {
+            const selected = countrySelect.options[countrySelect.selectedIndex];
+            return parseInt(selected.getAttribute('data-digits')) || 10;
+        }
+
+        countrySelect.addEventListener('change', function() {
+            phoneInput.value = '';
+        });
+
+        phoneInput.addEventListener('input', function (e) {
+            let maxDigits = getMaxDigits();
+            let val = e.target.value.replace(/\D/g, '');
+            
+            if (val.length > maxDigits) {
+                val = val.substring(0, maxDigits);
+            }
+            
+            e.target.value = val;
+        });
+
+        // Formspree Gönderim İşlemi
+        const form = document.getElementById('repairForm');
+        const statusDiv = document.getElementById('status');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const submitBtn = form.querySelector('.btn-submit');
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(form);
+            
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                statusDiv.style.display = 'block';
+                if (response.ok) {
+                    statusDiv.style.background = 'rgba(37, 211, 102, 0.15)';
+                    statusDiv.style.color = '#25d366';
+                    statusDiv.innerText = "Request sent successfully! We will contact you soon.";
+                    form.reset();
+                } else {
+                    statusDiv.style.background = 'rgba(239, 68, 68, 0.15)';
+                    statusDiv.style.color = '#ef4444';
+                    statusDiv.innerText = "Failed to send request. Please try via WhatsApp.";
+                }
+            } catch (error) {
+                statusDiv.style.display = 'block';
+                statusDiv.style.background = 'rgba(239, 68, 68, 0.15)';
+                statusDiv.style.color = '#ef4444';
+                statusDiv.innerText = "Network error. Please check your connection.";
+            } finally {
+                submitBtn.textContent = 'Request Remote Fix';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
